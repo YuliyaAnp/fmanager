@@ -8,8 +8,9 @@ class App extends Component {
         this.state = {
             transactions:
                 [
-                    {Sum: 10, Description: "Description1"},
-                    {Sum: 20, Description: "Description2"}
+                    {Sum: -10, Description: "Food"},
+                    {Sum: 200, Description: "Income"},
+                    {Sum: -30, Description: "Cinema"},
                 ]
         };
     }
@@ -22,7 +23,10 @@ class App extends Component {
                 transactions = {this.state.transactions}/>
             </div>
             <div>
-                <AddTransaction />
+                <ul></ul>
+                <button onClick={() => {this.setState(
+                                        {transactions: [...this.state.transactions, {Sum: 100, Description: "Desc"}]
+                                        })}}>Add Transaction</button>
             </div>
           </div>
           );
@@ -41,7 +45,10 @@ App.propTypes = {
 class AddTransaction extends Component {
     render() {
         return(
+            <div>
+                
                 <button onClick={() => {this.SetState()}}>Add Transaction</button>
+            </div>
         );
     }
 }
@@ -61,6 +68,8 @@ class TableOfTransactions extends Component {
     }
 
     render() {
+        
+
         return (
             <div className="transactions-table">
                 <h1>Transactions</h1>
@@ -70,8 +79,7 @@ class TableOfTransactions extends Component {
                         <th style={{"width" : "30%"}}>Sum</th>
                         <th style={{"width" : "50%"}}>Description</th>
                     </tr>
-                    {this.renderTransaction(0)}
-                    {this.renderTransaction(1)}
+                    {this.props.transactions.map( (tr, index) => (this.renderTransaction(index)) )}
                 </table>
             </div>
         )
