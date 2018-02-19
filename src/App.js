@@ -6,6 +6,8 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
+            sum: 0,
+            desc: "",
             transactions:
                 [
                     {Sum: -10, Description: "Food"},
@@ -13,6 +15,16 @@ class App extends Component {
                     {Sum: -30, Description: "Cinema"},
                 ]
         };
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(event){
+      const target = event.target;
+      const name = target.name;
+      const value = target.value;
+      this.setState({
+      [name]: value
+      });
     }
 
     render() {
@@ -24,8 +36,10 @@ class App extends Component {
             </div>
             <div>
                 <ul></ul>
+                <input name="sum" type="text" placeholder="Sum" onChange={this.handleInputChange}/>
+                <input name="desc" type="text" placeholder="Description" onChange={this.handleInputChange}/>
                 <button onClick={() => {this.setState(
-                                        {transactions: [...this.state.transactions, {Sum: 100, Description: "Desc"}]
+                                        {transactions: [...this.state.transactions, {Sum: this.state.sum, Description: this.state.desc}]
                                         })}}>Add Transaction</button>
             </div>
           </div>
@@ -40,21 +54,7 @@ App.propTypes = {
     })),
 }
 
-
-
-class AddTransaction extends Component {
-    render() {
-        return(
-            <div>
-                
-                <button onClick={() => {this.SetState()}}>Add Transaction</button>
-            </div>
-        );
-    }
-}
-
 class TableOfTransactions extends Component {
-
     renderTransaction(i)
     {
         return (
@@ -64,12 +64,8 @@ class TableOfTransactions extends Component {
                 <td>{this.props.transactions[i].Description}</td>
             </tr>
         );
-
     }
-
     render() {
-        
-
         return (
             <div className="transactions-table">
                 <h1>Transactions</h1>
